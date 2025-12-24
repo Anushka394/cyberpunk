@@ -63,8 +63,7 @@
             font-size: 3rem;
             font-weight: bold;
             color: var(--neon-pink);
-            text-shadow: 2px 2px var(--neon-green);
-            animation: glitch-anim 0.3s infinite;
+            text-shadow: 0 0 10px var(--neon-pink); 
         }
 
         @keyframes glitch-anim {
@@ -81,7 +80,7 @@
             display: flex;
             gap: 50px;
             align-items: flex-start;
-            z-index: 20; /* Scanlines ke upar */
+            z-index: 20; 
         }
 
         .game-area {
@@ -175,7 +174,7 @@
 
         /* --- 4. MOBILE CONTROLS & RESPONSIVENESS --- */
         #mobile-controls {
-            display: none; /* Desktop par hide */
+            display: none; /* In Desktop hide */
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
@@ -275,7 +274,7 @@
             setTimeout(() => {
                 intro.style.opacity = '0';
                 setTimeout(() => { intro.style.display = 'none'; }, 1000);
-            }, 2500); // 2.5 sec baad gayab
+            }, 2500); // 2.5 sec 
         });
 
         // --- GAME SETUP ---
@@ -541,7 +540,6 @@
             if (isGameOver) initGame(); else togglePause();
         });
 
-        // Start
         fetchLeaderboard();
     </script>
 </body>
