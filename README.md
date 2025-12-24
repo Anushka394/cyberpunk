@@ -47,9 +47,3 @@
     * `POST /api/scores`: Submits a new high score when the game ends.
 
 ---
-
-## Developer
-
-Developed with ❤️ 
-
----
