@@ -9,7 +9,6 @@
 
 ## Play The Game
 ### [CLICK HERE TO PLAY LIVE](https://cyberpunk-ruby.vercel.app/)
-*(Replace the link above with your actual Vercel link if different)*
 
 ---
 
