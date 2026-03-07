@@ -11,8 +11,11 @@ app.use(express.json());
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB Connected!"))
-    .catch(err => console.log(err));
+    .then(() => console.log("MongoDB Connected Successfully!"))
+    .catch(err => {
+        console.error("MongoDB Connection Error:", err.message);
+        console.error("Full error:", err);
+    });
 
 // Schema (Data kaisa dikhega)
 const scoreSchema = new mongoose.Schema({
@@ -23,6 +26,11 @@ const scoreSchema = new mongoose.Schema({
 const Score = mongoose.model('Score', scoreSchema);
 
 // --- ROUTES (API Endpoints) ---
+
+// Health Check (Render ko awake rakhne ke liye)
+app.get('/', (req, res) => {
+    res.json({ status: 'Server is running!', timestamp: new Date() });
+});
 
 // 1. Save Score (Jab game over hoga)
 app.post('/api/scores', async (req, res) => {
@@ -42,14 +50,23 @@ app.post('/api/scores', async (req, res) => {
 // 2. Get Top Scores (Leaderboard ke liye)
 app.get('/api/scores', async (req, res) => {
     try {
+        // Check if MongoDB is connected
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ 
+                error: "Database not connected",
+                dbState: mongoose.connection.readyState 
+            });
+        }
+        
         // Top 5 scores dhundo, bade se chota (descending)
         const topScores = await Score.find().sort({ score: -1 }).limit(5);
         res.json(topScores);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch scores" });
+        console.error("Get scores error:", error);
+        res.status(500).json({ error: "Failed to fetch scores", details: error.message });
     }
 });
 
 // Server Start
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
