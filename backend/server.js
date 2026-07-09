@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Ye naya hai
+const cors = require('cors'); 
 
 const app = express();
 
@@ -50,7 +50,6 @@ app.post('/api/scores', async (req, res) => {
 // 2. Get Top Scores (Leaderboard ke liye)
 app.get('/api/scores', async (req, res) => {
     try {
-        // Check if MongoDB is connected
         if (mongoose.connection.readyState !== 1) {
             return res.status(503).json({ 
                 error: "Database not connected",
@@ -58,7 +57,6 @@ app.get('/api/scores', async (req, res) => {
             });
         }
         
-        // Top 5 scores dhundo, bade se chota (descending)
         const topScores = await Score.find().sort({ score: -1 }).limit(5);
         res.json(topScores);
     } catch (error) {
